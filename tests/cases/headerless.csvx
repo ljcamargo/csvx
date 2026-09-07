@@ -1,0 +1,6 @@
+---
+table:
+  header: false
+  type_propagation: none
+---
+a|b|c

@@ -1,0 +1,13 @@
+---
+version: "0.2.0"
+styles:
+  header: "font-weight: bold; background: #f0f0f0;"
+  negative: "color: #c00;"
+table:
+  header: true
+---
+team|q1 :int:|q2 :int:
+Alpha|10|12
+Beta|-2 [[#negative]]|15
+Gamma|8|-1 [[#negative]] [[font-weight: bold;]]
+Delta|5|0.5 [[.small]]

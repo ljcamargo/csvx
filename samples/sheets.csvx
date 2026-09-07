@@ -1,0 +1,13 @@
+---
+version: "0.2.0"
+sheets:
+- name: Sales
+- name: Notes
+  table:
+    header: false
+---
+region|qty :int:
+EU|12
+---
+Notes
+Just a free-form sheet.

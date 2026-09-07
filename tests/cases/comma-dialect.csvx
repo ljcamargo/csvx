@@ -1,0 +1,7 @@
+---
+dialect:
+  csv:
+    delimiter: ","
+---
+name,note :text:
+"Ada, Lovelace","the ""first"" programmer"

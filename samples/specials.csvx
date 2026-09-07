@@ -1,0 +1,6 @@
+---
+version: "0.2.0"
+table:
+  header: false
+---
+:nan:|:inf:|:ninf:|:na:|:err(#DIV/0!):|:div0:|:nref:|0.1 :periodic(3):

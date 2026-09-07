@@ -1,0 +1,22 @@
+---
+version: "0.2.0"
+features:
+- name: code
+  dtype: string
+- name: language
+  dtype: string
+- name: tokens
+  dtype: int
+- name: recorded
+  dtype: date(dd.MM.yyyy)
+- name: wav
+  dtype: audio
+- name: status
+  dtype: string
+meta:
+  description: Inspired by HuggingFace dataset cards; date format via :date(fmt):.
+---
+code|language|tokens :int:|recorded :date(dd.MM.yyyy):|wav :audio:|status
+tlh|Klingon|1234|01.06.2024|audio/tlh1.wav|ok
+es|Spanish|5678|02.06.2024|audio/es1.wav|:na:
+de|German|42|03.06.2024|audio/de1.wav|:err(#VALUE!):

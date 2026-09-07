@@ -1,0 +1,7 @@
+---
+table:
+  blank_row: "-"
+---
+a|b
+-
+c|d

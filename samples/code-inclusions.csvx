@@ -1,0 +1,17 @@
+---
+version: "0.2.0"
+dialect:
+  csvx:
+    code_format: yaml
+meta:
+  note: >
+    Code inclusions are schema-free annotations. Single-quoted strings
+    (quote alternation under the default " wrapper). Brace-balanced content
+    needs no escapes — even nested maps.
+---
+item|attrs
+A|{{note: 'verify before publish'}}
+B|{{min: 0, max: 10, link: 'https://example.com'}}
+C|{{'colspan': 2}}
+D|{{{'a': {'b': 2}}}}
+E|{{{"key": "value"}}}

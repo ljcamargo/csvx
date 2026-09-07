@@ -1,0 +1,8 @@
+---
+dialect:
+  csv:
+    delimiter: "\t"
+---
+a	b
+x+	y
+z

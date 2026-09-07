@@ -1,0 +1,4 @@
+# this is a line comment
+a|b
+#tag|data
+c|d/*inline comment*/

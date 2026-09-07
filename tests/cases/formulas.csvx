@@ -1,0 +1,10 @@
+---
+dialect:
+  csvx:
+    formula_dialect: sheets
+---
+product|total
+x|42`=B2*C2`
+y|`=SUM(B2:B3)`
+z|`=CONCAT("a\`b")`
+w|`=REGEXMATCH(A2,"\d+")`

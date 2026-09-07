@@ -1,0 +1,10 @@
+---
+version: "0.2.0"
+meta:
+  note: "# lines are CSVX-only; /* */ cell comments convert to spreadsheet notes."
+---
+# Table generated from the Q3 report; review before publishing.
+metric|value :float:|owner
+revenue|1200.5|@lsjcp
+costs|950.25|@lsjcp/*verify the VAT line, please*/
+net|250.25|/*auto-calculated*/@lsjcp

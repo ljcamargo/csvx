@@ -1,0 +1,5 @@
+---
+table:
+  header: false
+---
+price: 5|http://x/y|[1, 2]|100%|a#tag|a]b|a}b|a*b|c|~|yes|0.1.0

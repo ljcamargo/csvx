@@ -1,0 +1,13 @@
+---
+types:
+  hexcolor: "^#[0-9a-fA-F]{6}$"
+  weekday:
+    enum:
+    - Mon
+    - Tue
+    - Wed
+table:
+  header: false
+  type_propagation: none
+---
+#ff0000 :hexcolor:|Mon :weekday:

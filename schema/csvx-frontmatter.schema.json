@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://csvx.dev/schema/csvx-frontmatter.schema.json",
+  "title": "CSVX frontmatter",
+  "description": "JSON Schema for the YAML/JSON frontmatter of a CSVX file (draft SPEC 0.2.0). JSON is a YAML subset, so a single schema covers both spellings.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "version": {
+      "description": "CSVX spec version this file targets, e.g. \"0.2.0\".",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "dialect": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "csv": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "delimiter": { "type": "string", "minLength": 1, "maxLength": 1 },
+            "quote": { "enum": ["\"", "'"] },
+            "encoding": { "const": "utf-8" }
+          }
+        },
+        "csvx": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "continuation": { "type": "string", "minLength": 1, "maxLength": 1 },
+            "line_comment": {
+              "description": "single char, or null to disable",
+              "type": ["string", "null"],
+              "minLength": 1,
+              "maxLength": 1
+            },
+            "escape": { "type": "string", "minLength": 1, "maxLength": 1 },
+            "formula_dialect": { "enum": ["xlsx", "sheets", "ods", "none"] },
+            "code_format": { "enum": ["yaml", "json"] },
+            "style_format": { "const": "css" }
+          }
+        }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "header": { "type": "boolean" },
+        "type_propagation": { "enum": ["column", "none"] },
+        "default_dtype": { "type": "string" },
+        "null_policy": { "enum": ["null", "string"] },
+        "allow_ragged": { "type": "boolean" },
+        "blank_row": {
+          "description": "single char, or null to disable",
+          "type": ["string", "null"],
+          "minLength": 1,
+          "maxLength": 1
+        },
+        "rows": { "description": "declared data-row count (advisory)", "type": "integer", "minimum": 0 },
+        "cols": { "description": "declared column count (advisory)", "type": "integer", "minimum": 0 }
+      }
+    },
+    "columns": { "$ref": "#/$defs/columnList" },
+    "features": { "$ref": "#/$defs/columnList" },
+    "sheets": {
+      "description": "Sheet list (see SPEC 9.7). Enables multi-sheet mode.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "name": { "type": "string" },
+          "dialect": { "$ref": "#/properties/dialect" },
+          "table": { "$ref": "#/properties/table" },
+          "columns": { "$ref": "#/$defs/columnList" },
+          "features": { "$ref": "#/$defs/columnList" }
+        }
+      }
+    },
+    "types": {
+      "description": "Custom types: regex (fullmatch) or {enum: [...]}.",
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "required": ["enum"],
+            "properties": { "enum": { "type": "array" } },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "styles": {
+      "description": "Named styles: name -> CSS declarations.",
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "meta": {
+      "description": "Free-form metadata; anything.",
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "columnList": {
+      "description": "Column specs (HF-dataset-card style); 'columns' and 'features' are aliases.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "dtype": {
+            "description": "Registry or custom type; may carry params: date(dd.MM.yyyy).",
+            "type": "string",
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_.-]*(\\([^()]*\\))?$"
+          },
+          "width": { "type": "integer", "minimum": 0 },
+          "format": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+---
+version: "0.2.0"
+dialect:
+  csv:
+    delimiter: ","
+  csvx:
+    formula_dialect: sheets
+meta:
+  note: >
+    Formulas are stored verbatim, never re-quoted. The third data row shows
+    a wrapped field whose formula contains " and , — the backtick region is
+    wrapper-protected (SPEC §8), so the formula bytes survive untouched.
+---
+product,qty :int:,total
+Widgets,12,42`=B2*C2`
+"Gadgets, deluxe",7,69.93`=B3*C3`
+Check,"`=CONCAT("a","b")`",99

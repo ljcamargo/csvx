@@ -1,0 +1,6 @@
+---
+version: "0.2.0"
+table:
+  header: false
+---
+a\\b|a\`b|a\{\{b\}\}|a\[[b\]]|a/\*b\*/|key\:value:|x\:date(2024):y|\# tag|"5+"|a\ |"---"

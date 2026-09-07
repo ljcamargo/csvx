@@ -1,0 +1,23 @@
+---
+version: "0.2.0"
+dialect:
+  csv:
+    delimiter: "|"
+  csvx:
+    formula_dialect: xlsx
+meta:
+  title: Quarterly report
+---
+columnA|columnB :int:|columnC :int:
+
+Entry A|+
+6 [[color:red;]]|+
+10
+
+Entry B|+
+10|+
+9/*Verify please @user*/
+
+Sum|+
+16`=SUM(B2,B3)`|+
+19`=SUM(C2,C3)`
