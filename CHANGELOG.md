@@ -3,12 +3,13 @@
 All notable changes. Format follows [Keep a Changelog](https://keepachangelog.com/)
 and this project uses the spec-version scheme of [SPEC.md](SPEC.md#19-versioning-and-migration).
 
-## [0.2.0-draft] — Epoch 1, revision 3 (discussion closed)
+## [0.2.0-draft] — Epoch 1, revision 5 (discussion closed)
 
 ### Resolved in review rounds 1–2 (recorded in SPEC.md §21.1)
 
 - **CSV-shaped, not CSV-bound** (P1): readability wins over stock-CSV
-  compatibility; the enforced frontmatter already rules out drop-in use.
+  compatibility; optional frontmatter and continuation mean whole-document
+  drop-in CSV compatibility is not a goal.
 - **Quote policy**: wrappers are `"` or `'` only (backtick reserved for
   formulas); wrapper char recognized only at field start (mid-field is
   literal); **quote alternation** inside inclusions; **backtick-protected
@@ -25,10 +26,20 @@ and this project uses the spec-version scheme of [SPEC.md](SPEC.md#19-versioning
 - **Table**: types propagate by default, header cells exempt; styles do not
   propagate; `table.rows`/`table.cols` (coordinate-agnostic); literal
   "null" is never null.
-- **Frontmatter**: unknown top-level keys always allowed and preserved;
-  `{{...}}` content is schema-free.
+- **Frontmatter**: optional; body-only files use the default settings.
+  Canonical syntax settings are flat root keys (`delimiter`, `quote`,
+  `continuation`, `escape`, `formula_language`, `annotation_format`);
+  nested `dialect` input is deprecated during 0.x. When present, unknown
+  top-level keys are always allowed and preserved; `{{...}}` content is
+  schema-free.
 - **Tools**: proto-packages in `tools/` that graduate to standalone repos;
   spec keeps an implementation index.
+
+### Documentation and examples
+
+- Reworked the README and sample guide around small, body-first canonical
+  examples; default-only samples omit frontmatter.
+- Corrected stale cross-references and quote/formula wording in the spec.
 
 ### Deferred
 
@@ -38,6 +49,6 @@ and this project uses the spec-version scheme of [SPEC.md](SPEC.md#19-versioning
 ## [0.1.0-draft] — Epoch 1, initial proposal
 
 - First complete proposal: anatomy, frontmatter schema, inclusions (types,
-  formulas, code, styles, comments), escaping & collision matrix, staircase
+  formulas, annotations, styles, comments), escaping & collision matrix, staircase
   continuation, round-trip guarantees, grammar sketch, security, LLM
   guidance, open questions.

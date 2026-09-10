@@ -8,7 +8,7 @@ Legend: `[ ]` todo · `[~]` in progress · `[x]` done
 
 ---
 
-## Epoch 1 — Proposal & decisions (current)
+## Epoch 1 — Proposal & decisions (design complete)
 
 Goal: a stable, discussable specification. **No implementation work.**
 
@@ -30,28 +30,23 @@ Goal: a stable, discussable specification. **No implementation work.**
 
 ---
 
-## Epoch 2 — Repo scaffolding, README, samples & schema (next)
+## Epoch 2 — Repo scaffolding, examples & schema (complete)
 
-- [ ] `README.md` — global synoptic: catchy hero, why, key features, quick
-      tour, when-not-to-use, repo map, status (inspired by toon-format's
-      README; OpenAPI-style pro sections)
-- [ ] Repo scaffolding: `CONTRIBUTING.md`, `LICENSE.md`, `CHANGELOG.md`,
+- [x] Concise project `README.md` with body-first canonical examples
+- [x] Repo scaffolding: `CONTRIBUTING.md`, `LICENSE.md`, `CHANGELOG.md`,
       `implementations.md` (stub), `benchmarks/` (stub), `docs/adr/` (stub)
-- [ ] `samples/` corpus — one file per feature, each verified against the
-      spec (hello, user-example, types+dates, formulas, styling, code
-      inclusions, comments, continuation staircases, dialects incl. TAB
-      and `'`-wrapper, multi-sheet, one-line frontmatter, special values,
-      kitchen sink)
-- [ ] `samples/README.md` — tour of every feature with pointers to spec
-      sections
-- [ ] `schema/csvx-frontmatter.schema.json` — JSON Schema for the
-      frontmatter (version, dialect, table, columns/features, sheets,
+- [x] `samples/` corpus organized as canonical examples, configuration
+      examples, and precision/integration cases; default-only examples omit
+      frontmatter
+- [x] `samples/README.md` — reading guide and grammar-coverage map
+- [x] `schema/csvx-frontmatter.schema.json` — JSON Schema for frontmatter
+      when present (version, flat syntax keys, table, columns/features, sheets,
       types, styles, meta)
-- [ ] Grammar conformance checklist — map every grammar production (§15)
-      to at least one sample/test case
-- [ ] Open items raised by repo review: media type & file extension
-      (`.csvx`, IANA registration — see TOON's practice), "when not to
-      use" guidance, spec-version badge in README
+- [x] Grammar coverage checklist — maps valid §15 productions to examples
+- [x] Frontmatter made optional: body-only files use the default settings
+
+**Deferred:** register a media type and file extension (`.csvx`) after the
+format and reference tools stabilize.
 
 ## Epoch 3 — Reference parser (proto-package `tools/csvx-py`)
 
@@ -62,7 +57,9 @@ Goal: a stable, discussable specification. **No implementation work.**
       (date/time formats); brace-balanced `{{…}}` with backtracking
 - [ ] CLI: `parse | render | check | md | json | roundtrip`
 - [ ] Multi-sheet parsing (dividers, `sheets:` config, inferred dims)
-- [ ] One-line flow-YAML frontmatter
+- [ ] Optional frontmatter, including default-only body files and one-line
+      flow-YAML frontmatter; flat syntax-key migration and rejection of
+      per-sheet syntax/formula-language overrides
 - [ ] `tools/csvx-js` proto-package (parallel implementation) — optional,
       only if a second implementation is wanted for cross-checking
 
@@ -70,7 +67,7 @@ Goal: a stable, discussable specification. **No implementation work.**
 
 - [ ] `tests/cases/` adversarial corpus — every escape in §12.3, wrapper
       edge cases, staircase well-formedness, brace balancing, unicode,
-      dialects, sheets, one-line frontmatter
+      syntax settings, sheets, one-line frontmatter
 - [ ] Round-trip property tests: `parse(render(parse(x))) == parse(x)`
 - [ ] Escaping benchmark — schemes A/B/C over realistic + adversarial
       corpora: parse-failure rate, reversibility, byte & token overhead,

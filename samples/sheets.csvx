@@ -1,13 +1,25 @@
 ---
-version: "0.2.0"
 sheets:
 - name: Sales
 - name: Notes
   table:
     header: false
 ---
-region|qty :int:
-EU|12
+region|quarter|revenue :float:|renewals :int:
+Europe|Q1|128000|42
+Americas|Q1|151000|51
+Asia Pacific|Q1|97000|31
+Europe|Q2|136000|45
+Americas|Q2|158000|54
+Asia Pacific|Q2|104000|35
+Europe|Q3|142000|48
+Americas|Q3|163000|56
+Asia Pacific|Q3|111000|38
 ---
-Notes
-Just a free-form sheet.
+Priority|Owner|Decision
+High|Mina|Review Americas renewal assumptions.
+High|Noor|Confirm Asia Pacific partner forecast.
+Medium|Ravi|Prepare Q4 pricing proposal.
+Medium|Sofia|Add regional hiring plan.
+Low|Tariq|Archive superseded sales decks.
+Low|Wei|Schedule translator briefing.

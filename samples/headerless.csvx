@@ -1,8 +1,11 @@
----
-version: "0.2.0"
-table:
-  header: false
-  cols: 3
----
-a|b|c
-1|2|3
+--- {table: {header: false, cols: 4}} ---
+Ada|Research|42|active
+Grace|Platform|73|active
+Katherine|Navigation|51|active
+Alan|Research|64|inactive
+Margaret|Flight|39|active
+Annie|Systems|48|active
+Mary|Flight|57|active
+Donald|Algorithms|61|inactive
+Radia|Networks|46|active
+Evelyn|Navigation|52|active

@@ -1,6 +1,12 @@
----
-version: "0.2.0"
-table:
-  header: false
----
-a\\b|a\`b|a\{\{b\}\}|a\[[b\]]|a/\*b\*/|key\:value:|x\:date(2024):y|\# tag|"5+"|a\ |"---"
+case|literal value|why it is escaped
+backslash|a\\b|backslash is the escape character
+backtick|a\`b|would otherwise open a formula
+annotation marker|a\{\{b\}\}|would otherwise open structured metadata
+style marker|a\[[b\]]|would otherwise open a style
+comment marker|a/\*b\*/|would otherwise open a cell comment
+type-shaped text|key\:value:|would otherwise look like a type marker
+date-shaped text|x\:date(2024):|would otherwise look like a parameterized type
+line comment|\# tag|would otherwise be a comment line
+trailing continuation|"5+"|wrapped form keeps the trailing plus literal
+trailing value space|a\  :string:|escaped space precedes a type inclusion
+sheet divider|"---"|wrapped form keeps an own-line divider literal

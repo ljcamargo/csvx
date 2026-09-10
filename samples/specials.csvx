@@ -1,6 +1,11 @@
----
-version: "0.2.0"
-table:
-  header: false
----
-:nan:|:inf:|:ninf:|:na:|:err(#DIV/0!):|:div0:|:nref:|0.1 :periodic(3):
+case|source value|CSVX representation|converter note
+not a number|NaN|:nan:|numeric error or NaN cell
+positive infinity|∞|:inf:|converter chooses supported mapping
+negative infinity|-∞|:ninf:|converter chooses supported mapping
+not available|#N/A|:na:|spreadsheet error cell
+divide by zero|#DIV/0!|:div0:|sugar for a specific error
+missing reference|#REF!|:nref:|reference error
+invalid value|#VALUE!|:nvalue:|value error
+unknown name|#NAME?|:nname:|name error
+numeric overflow|#NUM!|:nnum:|numeric error
+repeating decimal|0.1(3)|0.1 :periodic(3):|prefix plus repetend

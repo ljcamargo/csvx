@@ -1,17 +1,11 @@
----
-version: "0.2.0"
-dialect:
-  csv:
-    delimiter: ","
-  csvx:
-    formula_dialect: sheets
-meta:
-  note: >
-    Formulas are stored verbatim, never re-quoted. The third data row shows
-    a wrapped field whose formula contains " and , — the backtick region is
-    wrapper-protected (SPEC §8), so the formula bytes survive untouched.
----
-product,qty :int:,total
-Widgets,12,42`=B2*C2`
-"Gadgets, deluxe",7,69.93`=B3*C3`
-Check,"`=CONCAT("a","b")`",99
+month|subscriptions :int:|revenue :float:|costs :float:|margin :float:|forecast note
+January|120|12000|7800|4200 `=C2-D2`|steady demand
+February|128|12800|8100|4700 `=C3-D3`|new campaign
+March|133|13300|8450|4850 `=C4-D4`|seasonal increase
+April|141|14100|9000|5100 `=C5-D5`|"`=CONCAT("north|south"," rollout")`"
+May|150|15000|9700|5300 `=C6-D6`|supplier change
+June|156|15600|10100|5500 `=C7-D7`|steady demand
+July|162|16200|10800|5400 `=C8-D8`|holiday period
+August|170|17000|11200|5800 `=C9-D9`|new accounts
+September|175|17500|11600|5900 `=C10-D10`|renewal cycle
+October|182|18200|12100|6100 `=C11-D11`|forecast review

@@ -1,0 +1,11 @@
+feature|owner|status|target date :date:|delivery note
+Importer|Mina|ready {{link: 'https://example.com/importer', tags: ['beta', 'cli']}}|2025-03-07|publish package
+Validator|Noor|8 :int: {{min: 0, max: 10}}|2025-03-10|complete rule set
+Dashboard|Ravi|planned {{{'owner': {'team': 'data'}}}}|2025-03-14|design review
+Migration guide|Sofia|draft {{url: 'https://example.com/guide'}}|2025-03-18|editorial pass
+Schema|Wei|ready {{format: 'json-schema'}}|2025-03-21|publish draft
+Examples|Ada|review {{tags: ['docs', 'community']}}|2025-03-24|add use cases
+Benchmarks|Grace|planned {{min: 1, max: 3, note: 'seed corpus'}}|2025-03-28|collect data
+Converter|Lin|blocked {{link: 'https://example.com/issue/42'}}|2025-04-02|await mapping
+Website|Tariq|draft {{icon: 'book'}}|2025-04-05|review copy
+Release notes|Marta|ready {{meta: {audience: 'implementers'}}}|2025-04-08|publish announcement

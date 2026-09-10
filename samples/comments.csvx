@@ -1,10 +1,12 @@
----
-version: "0.2.0"
-meta:
-  note: "# lines are CSVX-only; /* */ cell comments convert to spreadsheet notes."
----
-# Table generated from the Q3 report; review before publishing.
-metric|value :float:|owner
-revenue|1200.5|@lsjcp
-costs|950.25|@lsjcp/*verify the VAT line, please*/
-net|250.25|/*auto-calculated*/@lsjcp
+# Figures imported from the Q3 review; values remain editable.
+metric|department|budget :float:|actual :float:|owner
+Cloud services|Platform|12000|11850|Mina
+Contractors|Engineering|8500|9200 /*confirm extension dates*/|Noor
+Travel|Operations|4200|3650|Ravi
+Equipment|Research|6300|6100|Sofia
+Training|People|3400|3900 /*include accessibility workshop*/|Tariq
+Licenses|Platform|7700|7450|Wei
+Events|Marketing|5100|4800|Ada
+Facilities|Operations|9800|10020 /*invoice arrived after close @maria*/|Lin
+Security audit|Security|6900|6900|Grace
+Documentation|Community|2600|2400|Marta

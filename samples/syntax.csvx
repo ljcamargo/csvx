@@ -1,0 +1,15 @@
+---
+delimiter: ","
+quote: "'"
+---
+city,country,office,review note
+'Madrid, Spain',ES,Europe,'{{"rating": 5}}'
+'San José, Costa Rica',CR,Americas,'text with "double" quotes'
+'Mexico City, Mexico',MX,Americas,'{{"owner": "Marta"}}'
+'Buenos Aires, Argentina',AR,Americas,renewal due
+'Bogotá, Colombia',CO,Americas,regional hub
+'Lisbon, Portugal',PT,Europe,partner office
+'Paris, France',FR,Europe,'{{"tags": ["design", "sales"]}}'
+'Rome, Italy',IT,Europe,translation review
+'Chicago, United States',US,Americas,quarterly visit
+'Montreal, Canada',CA,Americas,training planned

@@ -1,23 +1,16 @@
----
-version: "0.2.0"
-dialect:
-  csv:
-    delimiter: "|"
-  csvx:
-    formula_dialect: xlsx
-meta:
-  title: Quarterly report
----
-columnA|columnB :int:|columnC :int:
-
-Entry A|+
-6 [[color:red;]]|+
-10
-
-Entry B|+
-10|+
-9/*Verify please @user*/
-
-Sum|+
-16`=SUM(B2,B3)`|+
-19`=SUM(C2,C3)`
+workstream|owner|planned :int:|actual :int:|variance :int:|status
+Research|Ada|12|10|-2 `=D2-C2` [[color: #b42318;]] /*confirm remaining budget*/|On track
+Implementation|Grace|18|21|3 `=D3-C3`|At risk
+Data cleanup|Lin|8|7|-1 `=D4-C4`|On track
+Security review|Mina|10|10|0 `=D5-C5`|Complete
+Documentation|Noor|6|5|-1 `=D6-C6` {{link: 'https://example.com/guide'}}|In review
+Pilot|Ravi|9|11|2 `=D7-C7`|At risk
+Training|Sofia|7|6|-1 `=D8-C8`|On track
+Procurement|Tariq|14|13|-1 `=D9-C9`|Complete
+Launch preparation|Wei|11|9|-2 `=D10-C10`|On track
+Total|+
+Portfolio|+
+95 `=SUM(C2:C10)`|+
+92 `=SUM(D2:D10)`|+
+-3 `=D11-C11` [[color: #b42318;]]|+
+Review /*portfolio total*/

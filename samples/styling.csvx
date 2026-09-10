@@ -1,13 +1,16 @@
 ---
-version: "0.2.0"
 styles:
-  header: "font-weight: bold; background: #f0f0f0;"
-  negative: "color: #c00;"
-table:
-  header: true
+  negative: "color: #b42318; font-weight: 600;"
+  warning: "background: #fff4ce; color: #7a4b00;"
 ---
-team|q1 :int:|q2 :int:
-Alpha|10|12
-Beta|-2 [[#negative]]|15
-Gamma|8|-1 [[#negative]] [[font-weight: bold;]]
-Delta|5|0.5 [[.small]]
+team|quarter|forecast :int:|actual :int:|variance :int:|note
+North|Q1|18|20|2 `=D2-C2`|ahead of plan
+South|Q1|12|9|-3 `=D3-C3` [[#negative]]|staffing gap
+West|Q1|9|11|2 `=D4-C4`|new account
+East|Q1|15|15|0 `=D5-C5`|on plan
+North|Q2|20|19|-1 `=D6-C6` [[#negative]]|supplier delay
+South|Q2|14|14|0 `=D7-C7`|on plan
+West|Q2|11|8|-3 `=D8-C8` [[#negative]] [[#warning]]|review required
+East|Q2|16|18|2 `=D9-C9` [[font-weight: bold;]]|ahead of plan
+Central|Q2|13|13|0 `=D10-C10` [[.balanced]]|new team
+Remote|Q2|10|12|2 `=D11-C11`|ahead of plan

@@ -11,7 +11,7 @@ data donors, implementers, reviewers.
    - bugs or ambiguities in the spec text;
    - real-world cells that break the escape matrix (§12.3) — these are gold
      for the benchmarks;
-   - proposals for new registries (types, tokens, code keys) or grammar.
+   - proposals for new registries (types, tokens, annotation keys) or grammar.
 3. **Pull requests** for: spec text, samples, schema, reference parsers,
    converters, benchmarks, docs. Small, focused PRs review faster.
 

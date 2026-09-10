@@ -1,3 +1,11 @@
-name|role
-Ada|Analyst
-Grace|Admiral
+name|team|role|location
+Ada Lovelace|Research|Analyst|London
+Grace Hopper|Platform|Admiral|Arlington
+Katherine Johnson|Navigation|Mathematician|Hampton
+Alan Turing|Research|Engineer|Manchester
+Margaret Hamilton|Flight|Engineer|Cambridge
+Annie Easley|Systems|Scientist|Cleveland
+Mary Jackson|Flight|Engineer|Hampton
+Donald Knuth|Algorithms|Researcher|Stanford
+Radia Perlman|Networks|Engineer|Seattle
+Evelyn Boyd Granville|Navigation|Mathematician|Washington

@@ -2,46 +2,56 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://csvx.dev/schema/csvx-frontmatter.schema.json",
   "title": "CSVX frontmatter",
-  "description": "JSON Schema for the YAML/JSON frontmatter of a CSVX file (draft SPEC 0.2.0). JSON is a YAML subset, so a single schema covers both spellings.",
+  "description": "JSON Schema for YAML/JSON frontmatter when a CSVX file has it (draft SPEC 0.2.0). Frontmatter is optional; a body-only file uses the specification defaults. Flat syntax keys are canonical. The deprecated nested 'dialect' mapping is accepted only as legacy input during the 0.x migration.",
   "type": "object",
   "additionalProperties": true,
+  "$comment": "Apply this schema only when optional CSVX frontmatter is present.",
+  "not": { "required": ["columns", "features"] },
+  "oneOf": [
+    { "not": { "required": ["dialect"] } },
+    {
+      "required": ["dialect"],
+      "not": {
+        "anyOf": [
+          { "required": ["delimiter"] },
+          { "required": ["quote"] },
+          { "required": ["continuation"] },
+          { "required": ["line_comment"] },
+          { "required": ["escape"] },
+          { "required": ["formula_language"] },
+          { "required": ["annotation_format"] }
+        ]
+      }
+    }
+  ],
   "properties": {
     "version": {
       "description": "CSVX spec version this file targets, e.g. \"0.2.0\".",
       "type": "string",
       "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     },
+    "delimiter": { "description": "File-wide field delimiter.", "type": "string", "minLength": 1, "maxLength": 1 },
+    "quote": { "description": "File-wide wrapper quote.", "enum": ["\"", "'"] },
+    "continuation": { "description": "File-wide end-of-field continuation marker.", "type": "string", "minLength": 1, "maxLength": 1 },
+    "line_comment": {
+      "description": "File-wide line-comment marker, or null to disable.",
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 1
+    },
+    "escape": { "description": "File-wide CSVX escape character.", "type": "string", "minLength": 1, "maxLength": 1 },
+    "formula_language": {
+      "description": "File-wide formula language/profile.",
+      "enum": ["ooxml", "openformula", "google-sheets", "none"]
+    },
+    "annotation_format": {
+      "description": "File-wide default format for {{...}} structured annotations.",
+      "enum": ["yaml", "json"]
+    },
     "dialect": {
-      "type": "object",
-      "additionalProperties": true,
-      "properties": {
-        "csv": {
-          "type": "object",
-          "additionalProperties": true,
-          "properties": {
-            "delimiter": { "type": "string", "minLength": 1, "maxLength": 1 },
-            "quote": { "enum": ["\"", "'"] },
-            "encoding": { "const": "utf-8" }
-          }
-        },
-        "csvx": {
-          "type": "object",
-          "additionalProperties": true,
-          "properties": {
-            "continuation": { "type": "string", "minLength": 1, "maxLength": 1 },
-            "line_comment": {
-              "description": "single char, or null to disable",
-              "type": ["string", "null"],
-              "minLength": 1,
-              "maxLength": 1
-            },
-            "escape": { "type": "string", "minLength": 1, "maxLength": 1 },
-            "formula_dialect": { "enum": ["xlsx", "sheets", "ods", "none"] },
-            "code_format": { "enum": ["yaml", "json"] },
-            "style_format": { "const": "css" }
-          }
-        }
-      }
+      "description": "Deprecated 0.x input form. Do not emit; use flat syntax keys instead.",
+      "deprecated": true,
+      "$ref": "#/$defs/legacyDialect"
     },
     "table": {
       "type": "object",
@@ -65,15 +75,31 @@
     "columns": { "$ref": "#/$defs/columnList" },
     "features": { "$ref": "#/$defs/columnList" },
     "sheets": {
-      "description": "Sheet list (see SPEC 9.7). Enables multi-sheet mode.",
+      "description": "Sheet list. Syntax and formula-language settings are file-wide; only intrinsic table/schema settings may override here.",
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": true,
+        "allOf": [
+          { "not": { "required": ["columns", "features"] } },
+          {
+            "not": {
+              "anyOf": [
+                { "required": ["delimiter"] },
+                { "required": ["quote"] },
+                { "required": ["continuation"] },
+                { "required": ["line_comment"] },
+                { "required": ["escape"] },
+                { "required": ["formula_language"] },
+                { "required": ["annotation_format"] },
+                { "required": ["dialect"] }
+              ]
+            }
+          }
+        ],
         "properties": {
           "name": { "type": "string" },
-          "dialect": { "$ref": "#/properties/dialect" },
-          "table": { "$ref": "#/properties/table" },
+          "table": { "$ref": "#/$defs/table" },
           "columns": { "$ref": "#/$defs/columnList" },
           "features": { "$ref": "#/$defs/columnList" }
         }
@@ -105,6 +131,47 @@
     }
   },
   "$defs": {
+    "table": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "header": { "type": "boolean" },
+        "type_propagation": { "enum": ["column", "none"] },
+        "default_dtype": { "type": "string" },
+        "null_policy": { "enum": ["null", "string"] },
+        "allow_ragged": { "type": "boolean" },
+        "blank_row": { "type": ["string", "null"], "minLength": 1, "maxLength": 1 },
+        "rows": { "type": "integer", "minimum": 0 },
+        "cols": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "legacyDialect": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "csv": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "delimiter": { "type": "string", "minLength": 1, "maxLength": 1 },
+            "quote": { "enum": ["\"", "'"] },
+            "encoding": { "const": "utf-8" }
+          }
+        },
+        "csvx": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "continuation": { "type": "string", "minLength": 1, "maxLength": 1 },
+            "line_comment": { "type": ["string", "null"], "minLength": 1, "maxLength": 1 },
+            "escape": { "type": "string", "minLength": 1, "maxLength": 1 },
+            "formula_dialect": { "enum": ["xlsx", "sheets", "ods", "none"] },
+            "code_format": { "enum": ["yaml", "json"] },
+            "style_format": { "const": "css" }
+          }
+        }
+      }
+    },
     "columnList": {
       "description": "Column specs (HF-dataset-card style); 'columns' and 'features' are aliases.",
       "type": "array",

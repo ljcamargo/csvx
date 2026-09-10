@@ -1,41 +1,20 @@
 ---
-version: "0.2.0"
-dialect:
-  csv:
-    delimiter: "|"
-  csvx:
-    formula_dialect: xlsx
-    code_format: yaml
-table:
-  header: true
-  type_propagation: column
 styles:
-  negative: "color: #c00;"
-  header: "font-weight: bold; background: #f0f0f0;"
-types:
-  hexcolor: "^#[0-9a-fA-F]{6}$"
-features:
-- name: item
-  dtype: string
-- name: qty
-  dtype: int
-- name: unit_price
-  dtype: float
-- name: total
-  dtype: float
-meta:
-  title: Kitchen sink
-  license: CC-BY-4.0
+  negative: "color: #b42318;"
+  attention: "background: #fff4ce;"
 ---
-item|qty|unit_price|total
-Widget|12|3.50|42`=B2*C2`
-Gadget|7|9.99|69.93`=B3*C3`
-"Bolt, M4"|150|0.05|7.50`=B4*C4`
-# formatting note: totals are computed by the spreadsheet app
+item|category|qty :int:|unit price :float:|total :float:|inventory note
+Widget A|Hardware|12|3.50|42 `=C2*D2`|standard stock
+Widget B|Hardware|7|9.99|69.93 `=C3*D3`|new supplier
+"Bolt | M4"|Hardware|150|0.05|7.50 `=C4*D4`|packed in boxes
+Cable kit|Accessories|24|6.75|162 `=C5*D5`|check connector type
+Mounting plate|Hardware|18|12.40|223.20 `=C6*D6`|reorder next month
+Power adapter|Accessories|9|18.00|162 `=C7*D7` [[#attention]]|regional plug
+Sensor module|Electronics|5|44.50|222.50 `=C8*D8`|calibration required
+Display panel|Electronics|3|95.00|285 `=C9*D9`|fragile shipment
+Tint sample|Materials|5|0.80|4 `=C10*D10` [[#negative]] {{note: 'review supplier'}} /*check price*/|supplier review
 Subtotal|+
-17|+
-10.49|154.43`=SUM(D2:D4)`
-Tint|5|0.80|4.00 [[#negative]]/*check price @lsjcp*/
-Config|`=VLOOKUP("Tint",A2:D6,4,FALSE)`|{{note: "computed"}}|[[#header]]
-31.12.2024 :date(dd.MM.yyyy):|:inf:|{{min: 0, max: 10}}|{{'link': 'https://example.com'}}
-"5+"|5|5|5
+Inventory|+
+233 `=SUM(C2:C10)`|+
+|1178.13 `=SUM(E2:E10)`|+
+Review before purchase order

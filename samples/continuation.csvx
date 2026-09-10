@@ -1,20 +1,17 @@
----
-version: "0.2.0"
-meta:
-  title: Staircase continuations
-  note: >
-    The + marker lives at the end of the raw field (outside any wrapper).
-    It applies to whole cells only. A bare + line is an empty segment
-    (blank line inside the cell). See SPEC §13.
----
-id|description :text:|payload
-1|+|+
-First line of a long description+|+
-"second line with a | pipe"|{"note": "multi-line JSON is fine"}
-2|+|+
-paragraph text|+
-with a blank line|+
-+|done
-and more
-3|"quoted continuation"+|+
-"still continued"|done
+ticket|owner|summary|status
+SUP-17|Mina|+|+
+Customer sees "payment declined"+|+
+after a card update.|Investigating
+SUP-21|Noor|+|+
+First paragraph of the handover.+|+
++|Waiting for logs
+Second paragraph follows the blank line.
+SUP-24|Ravi|"A | character in the summary"+|+
+continues on the next line.|Resolved
+SUP-28|Sofia|Password reset email arrives late.|Monitoring
+SUP-31|Tariq|Invoice export omits the purchase order.|Investigating
+SUP-34|Wei|Mobile navigation overlaps the footer.|Scheduled
+SUP-39|Ada|Account invitation link has expired.|Resolved
+SUP-42|Grace|Report download fails for files over 20 MB.|Investigating
+SUP-44|Lin|Search result order changes after refresh.|Monitoring
+SUP-47|Marta|Timezone label is missing in the audit log.|Scheduled

@@ -1,6 +1,6 @@
 # CSVX — Draft Open Specification
 
-**Version:** 0.2.0 (Draft, "Epoch 1, revision 2")
+**Version:** 0.2.0 (Draft, "Epoch 1, revision 5")
 **Status:** Proposal for community discussion — *not ratified*
 **License (proposal):** Spec text CC-BY-4.0, reference implementations Apache-2.0
 **Scope:** A CSV-enriched, human-readable and LLM-readable format for tabular
@@ -36,14 +36,15 @@ multi-line cells, multi-sheet workbooks, structured metadata).
 
 CSVX is a text format for tables. It is:
 
-1. **A CSV-shaped body** — any declared dialect (default delimiter `|`,
-   wrapper quote `"` or `'`), line-oriented, so a stock CSV reader can still
-   consume the body row-by-row for the declared dialect in most cases.
-2. **With a YAML/JSON frontmatter** (like Markdown or Hugging Face dataset
-   cards) declaring dialect, table-level configuration, column specs, named
-   styles, sheets, and free-form metadata. The frontmatter is *enforced* —
-   this is what makes the file self-describing, and it means out-of-the-box
-   compatibility with existing CSV libraries is **not** a goal (see P1).
+1. **A CSV-shaped body** — with file-wide syntax settings (default delimiter
+   `|`, wrapper quote `"` or `'`), line-oriented, so a stock CSV reader can
+   still consume the body row-by-row in the common case.
+2. **With optional YAML/JSON frontmatter** (like Markdown or Hugging Face
+   dataset cards) for non-default syntax, table-level configuration, column specs,
+   named styles, sheets, and free-form metadata. A body-only file uses the
+   defaults; frontmatter is added when document-level configuration or
+   metadata is needed. This keeps ordinary tables short while allowing a
+   file to be self-describing when it needs to be.
 3. **With per-cell inclusions** — types, formulas, structured annotations
    (inline YAML/JSON), CSS styling, and comments — attached directly to cell
    values with compact markers that avoid generalized escaping.
@@ -56,12 +57,6 @@ CSVX is a text format for tables. It is:
 
 ```csvx
 ---
-version: "0.2.0"
-dialect:
-  csv:
-    delimiter: "|"
-  csvx:
-    formula_dialect: xlsx
 meta:
   title: Quarterly report
 ---
@@ -82,7 +77,7 @@ Sum|+
 
 Semantics: three columns (`columnB`, `columnC` are typed `int` in the header
 and the type propagates down the column); three data rows; the `Sum` row
-carries Excel-dialect formulas and a comment on `9`. Blank lines are
+carries Excel-language formulas and a comment on `9`. Blank lines are
 formatting and are ignored. The `+` continuations are explained in §13.
 
 ## 3. Goals and non-goals
@@ -104,14 +99,14 @@ formatting and are ignored. The `+` continuations are explained in §13.
   never touched by CSVX tools (§11.2, §18).
 - No charts, images, pivot tables, macros.
 - No binary encoding; no compression; no streaming formats.
-- No general-purpose schema *validation* of `{{...}}` content — code
+- No general-purpose schema *validation* of `{{...}}` content — annotation
   inclusions are schema-free structured metadata (§11.3).
 
 ## 4. Design principles
 
 | # | Principle | Meaning |
 |---|-----------|---------|
-| P1 | **CSV-shaped, not CSV-bound** | The body must *look* like CSV and parse row-by-row with a stock reader for the declared dialect in the common case. But readability is not sacrificed for compatibility: the enforced frontmatter already rules out drop-in use, and features like continuation are inherently non-standard. |
+| P1 | **CSV-shaped, not CSV-bound** | The body must *look* like CSV and parse row-by-row with a stock reader under its configured syntax in the common case. But readability is not sacrificed for compatibility: optional frontmatter and features like continuation are inherently non-standard, so drop-in compatibility with an entire CSVX document is not a goal. |
 | P2 | **Reversibility** | Parse∘Render∘Parse = Parse. Canonical rendering exists (§14). |
 | P3 | **Token economy** | Inclusions cost as few characters as possible; escaping is *on demand*, never mandatory prefixes. |
 | P4 | **LLM-first legibility** | The syntax reads like annotated prose and resembles Markdown tables; markers are visually distinct; no noise characters around every value. |
@@ -151,7 +146,7 @@ formatting and are ignored. The `+` continuations are explained in §13.
 ```
 
 - Encoding: **UTF-8** is mandatory for conformant files (the only sanctioned
-  `encoding` value). A leading BOM is tolerated and stripped; canonical form
+  encoding. A leading BOM is tolerated and stripped; canonical form
   has no BOM `[PROPOSED]`.
 - Newlines: CRLF and CR are normalized to LF on read; canonical form is LF.
 - A line containing exactly `---` inside the body is a **sheet divider**, not
@@ -159,7 +154,7 @@ formatting and are ignored. The `+` continuations are explained in §13.
 
 ### 6.1 Frontmatter forms: block and one-line
 
-Two spellings are defined `[RESOLVED]`:
+Frontmatter is optional. When present, two spellings are defined `[RESOLVED]`:
 
 - **Block form** (default for authored files): `---` … `---` on their own
   lines, content is a YAML mapping (may be multi-line).
@@ -173,28 +168,27 @@ Two spellings are defined `[RESOLVED]`:
   recommend one-line only for machine-written files. The frontmatter
   *content model* is identical in both forms.
 
-## 7. Frontmatter (the schema of expected features)
+## 7. Optional frontmatter (document-level configuration)
 
-The frontmatter is a YAML mapping (JSON is a YAML subset). **Unknown
-top-level keys are always allowed and preserved** — metadata must be
-extensible and future versions must not break older files `[RESOLVED]`.
+A CSVX file may omit frontmatter entirely and use the defaults in §7.1.
+Use frontmatter when a file needs non-default syntax or table settings,
+column declarations, named styles or custom types, named/configured sheets,
+or document metadata. The frontmatter, when present, is a YAML mapping
+(JSON is a YAML subset). **Unknown top-level keys are always allowed and
+preserved** — metadata must be extensible and future versions must not break
+older files `[RESOLVED]`.
 
 ### 7.1 Full schema (normative keys)
 
 ```yaml
-version: "0.2.0"          # [PROPOSED] recommended: spec version this file targets
-dialect:
-  csv:                    # CSV layer (defaults shown)
-    delimiter: "|"        #   any single char, incl. "\t"; "|" default
-    quote: '"'            #   wrapper quote: '"' or "'" ONLY (backtick reserved)
-    encoding: utf-8       #   informational; UTF-8 is the only sanctioned value
-  csvx:                   # CSVX layer (defaults shown)
-    continuation: "+"     #   single char; end-of-field continuation marker
-    line_comment: "#"     #   single char or null; "# " + space/EOL = comment line
-    escape: "\\"          #   single char; the CSVX escape character
-    formula_dialect: xlsx #   xlsx | sheets | ods | none
-    code_format: yaml     #   yaml | json (informational hint for consumers)
-    style_format: css     #   css (only value for now)
+version: "0.2.0"              # [PROPOSED] recommended: spec version this file targets
+delimiter: "|"                # any single char, incl. "\t"; "|" default
+quote: '"'                    # wrapper quote: '"' or "'" ONLY (backtick reserved)
+continuation: "+"             # single char; end-of-field continuation marker
+line_comment: "#"             # single char or null; "# " + space/EOL = comment line
+escape: "\\"                  # single char; the CSVX escape character
+formula_language: ooxml        # ooxml | openformula | google-sheets | none
+annotation_format: yaml        # yaml | json; default format for {{...}} inclusions
 table:
   header: true            #   first body row of each sheet is the header
   type_propagation: column#   column | none (see §9.2)
@@ -212,11 +206,13 @@ styles: {}                #   named styles (see §11.4.2)
 meta: {}                  #   free-form; anything (title, license, provenance…)
 ```
 
-### 7.2 Dialect auto-detection
+### 7.2 Defaults without frontmatter
 
-`[PROPOSED]` If the file has no frontmatter, the defaults apply
-(`|` delimiter, `"` wrapper, `+` continuation, `#` line comments). No
-heuristic sniffing of unknown dialects — dialect is *declared, not guessed*
+`[RESOLVED]` A file with no frontmatter uses every default in §7.1 (`|`
+delimiter, `"` wrapper, `+` continuation, `#` line comments, `ooxml` formula
+language, YAML annotations, and a header). Frontmatter is therefore optional,
+not a validity requirement. A file that needs a non-default syntax or table
+setting declares it in frontmatter; no heuristic sniffing is performed
 (guessing is a known source of data corruption in the CSV world).
 
 ### 7.3 Column specs
@@ -255,7 +251,7 @@ see §9.2 for precedence.
 The CSV layer follows RFC 4180's quoting model with deliberate relaxations:
 
 1. **Wrapper quotes are `"` or `'` only.** The wrapper is declared in
-   `dialect.csv.quote`; **backtick is not a valid wrapper** — it is reserved
+   `quote`; **backtick is not a valid wrapper** — it is reserved
    for the formula marker. `[RESOLVED]`
 2. **The wrapper char is recognized only at field start.** If a field begins
    with the wrapper char, it is a wrapped field and RFC doubling applies
@@ -284,9 +280,9 @@ continuation marker is unaffected `[RESOLVED]`.
 ### 8.1 Quote alternation (P5)
 
 When a field must be wrapped (it contains the delimiter, a wrapper char to
-escape, or leading/trailing spaces), string literals *inside inclusions*
-(YAML/JSON in `{{…}}`, CSS in `[[…]]`, formulas) should use the **opposite
-quote** of the wrapper, so the wrapper char never needs doubling:
+escape, or leading/trailing spaces), string literals in annotations (`{{…}}`) and
+style (`[[…]]`) inclusions should use the **opposite quote** of the cell
+wrapper, so the wrapper char never needs doubling inside those inclusions:
 
 - wrapper `"` → inclusions use `'`:
   `"1{{{'key':'value'}}}[[color:'#ffffff']]"` — no `""` doubling anywhere
@@ -302,15 +298,15 @@ literal newline; an unwrapped field may contain either quote freely:
 
 This convention is a SHOULD, not enforced — the parser only needs the
 field-start rule above. Consequences `[PROPOSED]`:
-- With `code_format: yaml` (default) alternation is free: YAML accepts both
-  quote styles.
-- With `code_format: json` under a `"` wrapper, single-quoted strings are
+- With `annotation_format: yaml` (default) alternation is free: YAML accepts
+  both quote styles.
+- With `annotation_format: json` under a `"` wrapper, single-quoted strings are
   accepted by CSVX parsers (relaxed); consumers may re-quote as needed
   `[RESOLVED]`.
 
 **Formulas are excluded from alternation** — a formula is stored
 byte-for-byte as it appeared in the source spreadsheet
-(`=CONCAT("a","b")` keeps its double quotes), because spreadsheet dialects
+(`=CONCAT("a","b")` keeps its double quotes), because formula languages
 differ in what quoting they accept. Alternation is a writing convention for
 YAML/JSON/CSS only (§11.2).
 
@@ -401,7 +397,7 @@ enabled, a literal marker value must be escaped.
 `table.rows` and `table.cols` declare the expected data-row and column
 counts — numeric and **coordinate-agnostic**: CSVX has no cell-coordinate
 system of its own. Formula references (A1-style) are opaque text inside
-formula strings, in the formula's own dialect; CSVX never interprets them.
+formula strings, in the formula's own language; CSVX never interprets them.
 The counts are advisory but give tools and validators context to resolve
 ambiguity (e.g. blank-row counts) and to verify XLSX round-trip fidelity.
 Converters may derive an xlsx-style range (`A1:D20`) from them; that is a
@@ -419,9 +415,11 @@ coordinates add nothing for humans or LLMs.)
   (names + per-sheet overrides). There is **no per-sheet frontmatter** —
   sheets that need no configuration declare nothing and fall back to
   defaults (and to inferred row/column counts). `[RESOLVED]`
-- `types` and `styles` are file-wide registries. `dialect`, `table`,
-  `columns`/`features` are per-sheet-able via `sheets:` entries: global
-  values act as defaults for every sheet.
+- `types` and `styles` are file-wide registries. Syntax settings
+  (`delimiter`, `quote`, `continuation`, `line_comment`, `escape`),
+  `formula_language`, and `annotation_format` are file-wide and **MUST NOT**
+  be overridden by a `sheets:` entry. `table` and `columns`/`features` may be
+  overridden per sheet; their global values act as defaults for every sheet.
 - Sheets without a declared name are named `Sheet1`, `Sheet2`, … in order.
 
 ```csvx
@@ -454,7 +452,7 @@ region. Inclusions may appear in any order and may be separated by single
 spaces or nothing (both parse; canonical form uses single spaces).
 
 ```
-VALUE :type(params): `formula` {{code}} [[style]] /*comment*/
+VALUE :type(params): `formula` {{annotation}} [[style]] /*comment*/
 ```
 
 Cell-level inclusion reference (all `[PROPOSED]`):
@@ -463,7 +461,7 @@ Cell-level inclusion reference (all `[PROPOSED]`):
 |---|---|---|---|
 | type | `:name:` / `:name(params):` | dtype (+ params) | `:int:` `:float:` `:date(dd.MM.yyyy):` |
 | formula | `` `...` `` | formula string | `` `=SUM(B2,B3)` `` |
-| code | `{{...}}` | structured annotation | `{{link: "https://…"}}` `{{{"colspan": 2}}}` |
+| annotation | `{{...}}` | structured annotation | `{{link: "https://…"}}` `{{{"colspan": 2}}}` |
 | style | `[[...]]` | CSS / named refs | `[[color: red;]]` `[[#negative]]` |
 | comment | `/*...*/` | note | `/*Verify please @user*/` |
 
@@ -477,7 +475,7 @@ columnB :int:            # header cell: name "columnB", column type int
 :null:                   # empty value, explicit null
 :inf:                    # special value: +infinity
 31.12.2024 :date(dd.MM.yyyy):   # formatted date
-{{"colspan": 2}}         # empty value, code annotation only
+{{"colspan": 2}}         # empty value, annotation only
 ```
 
 ## 11. Inclusions in detail
@@ -540,7 +538,7 @@ spreadsheet format-string notation (Excel number-format tokens like
 - The parameter is part of the type marker: `:name(params):` — params may
   contain `:` (time formats) but **not** `(` or `)`; the marker ends at the
   first `):`. (Format strings never need parentheses; if they ever do, use
-  the code-inclusion form `{{format: "…"}}` instead.)
+  the annotation form `{{format: "…"}}` instead.)
 - `[RESOLVED]` `:date(fmt):` is canonical for date/time formats; `{{format:
   …}}` remains available for other display formats (numbers, currency) —
   see §11.3.1.
@@ -601,8 +599,8 @@ types:
 ```
 
 Complex constraints (min/max/pattern) do **not** go here — they belong in
-the cell's code inclusion, which is the schema-free home for validation
-metadata `[RESOLVED]`:
+the cell's annotation inclusion, which is the schema-free home for
+validation metadata `[RESOLVED]`:
 
 ```
 7 :int: {{min: 0, max: 10}}
@@ -613,18 +611,19 @@ metadata `[RESOLVED]`:
 - Content is stored **verbatim** (after the CSVX-layer unescaping of
   `` \` `` → `` ` ``); CSVX never evaluates, rewrites, or validates
   formulas `[RESOLVED]`.
-- The formula dialect is a *file-level* declaration
-  (`dialect.csvx.formula_dialect: xlsx | sheets | ods | none`), because
-  mixing dialects in one file is a footgun.
+- The formula language is a *file-level* declaration
+  (`formula_language: ooxml | openformula | google-sheets | none`), because
+  mixing formula languages in one file is a footgun. `ooxml` is the default
+  SpreadsheetML/Excel-oriented profile; `openformula` is the OpenDocument
+  formula language; `google-sheets` names the Google Sheets profile.
 - References (A1-style, e.g. `=SUM(B2:B3)`) refer to the rendered table
   position: header = row 1, first data row = row 2.
 - **Converter fidelity:** for formulas to keep working after XLSX ↔ CSVX ↔
   XLSX round-trips, converters must preserve the grid — same row/column
   count, same sheet names and order, same cell positions (§18).
 - Formula strings commonly contain `"` (`=CONCAT("a","b")`); under §8.2
-  these are literal in unwrapped fields, so no escaping or doubling is
-  needed. Only in a *wrapped* field containing a `"`-wrapper do they need
-  doubling (rare; accepted).
+  these are literal in unwrapped fields. In a wrapped field, the backtick
+  region is wrapper-protected, so formula text never needs doubling.
 - Inside a formula, only `` \` `` is an escape; backslashes are otherwise
   preserved verbatim (important for regex formulas like
   `` `=REGEXMATCH(A2,"\d+")` ``).
@@ -634,10 +633,11 @@ metadata `[RESOLVED]`:
   XLSX → CSVX → XLSX round-trips therefore reproduce the original formula
   bytes, whatever quoting the source software uses `[RESOLVED]`.
 
-### 11.3 Code inclusions — `{{...}}` (structured, schema-free annotations)
+### 11.3 Annotation inclusions — `{{...}}` (structured, schema-free annotations)
 
-Structured annotations, default inline YAML, configurable to JSON. The
-content is **schema-free** — it is broad metadata, and complex consumer
+Structured annotations use inline YAML by default and may use JSON through
+`annotation_format`. The content is **schema-free** — it is broad metadata,
+and complex consumer
 features (e.g. conditional formatting) may be expressed there without the
 core spec growing `[RESOLVED]`.
 
@@ -650,9 +650,9 @@ core spec growing `[RESOLVED]`.
   `{{{"s": "a\}\}b"}}}` → content `{"s": "a}}b"}`. Escapes are a CSVX-layer
   concern; they are removed before the block is handed to the YAML/JSON
   consumer.
-- **Quote alternation applies** (§8.1): with a `"` wrapper, write YAML with
-  `'` strings (`{{'key': 'value'}}`); JSON under a `"` wrapper is the one
-  awkward case (§8.1, §21.2 Q18).
+- **Quote alternation applies** (§8.1): with a `"` wrapper, prefer YAML
+  with `'` strings (`{{'key': 'value'}}`). JSON with `"` strings is also
+  accepted; CSVX parsers accept relaxed quoting inside annotation inclusions.
 - A field containing `"` does not need wrapping (§8.2) — `{{{"key":"value"}}}`
   unwrapped is valid JSON with zero escaping.
 
@@ -672,7 +672,7 @@ validation rules); CSVX itself only guarantees the block is well-delimited.
 `[[color: blue; font-size: 18px; font-weight: bold;]]` — CSS declarations.
 With a `"` wrapper, prefer `'` for CSS strings: `[[color:'#ffffff']]`
 (§8.1). Escapes: `\]` `\\`. CSS blocks (`{}`) are not allowed inside inline
-style regions — use a named style (§11.4.2) or a code inclusion.
+style regions — use a named style (§11.4.2) or an annotation inclusion.
 
 #### 11.4.2 Named styles and CSS classes
 
@@ -738,13 +738,13 @@ CSVX cheap on tokens (P3).
 
 ### 12.3 The collision matrix (when is escaping needed?)
 
-The escape character is `\` (`dialect.csvx.escape`). This is the *complete*
+The escape character is `\` (`escape`). This is the *complete*
 list — everything else passes through untouched:
 
 | Context | Raw text you want | Write | Why |
 |---|---|---|---|
 | value | `` a`b `` | `` a\`b `` | `` ` `` would open a formula |
-| value | `a{{b}}` | `a\{\{b\}\}` | `{{` would open a code region |
+| value | `a{{b}}` | `a\{\{b\}\}` | `{{` would open an annotation region |
 | value | `a[[b]]` | `a\[[b\]]` | `[[` would open a style region |
 | value | `a/*b*/` | `a/\*b\*/` | `/*` would open a comment |
 | value | `key:value:` (type-shaped) | `key\:value:` | `:value:` looks like a type |
@@ -755,7 +755,7 @@ list — everything else passes through untouched:
 | value, before an inclusion | `a ` (trailing space) | `a\ ` | trailing spaces before a marker are separators |
 | value | `a\b` | `a\\b` | `\` is the escape itself |
 | formula | `` a`b `` | `` a\`b `` | only escape inside formulas |
-| code | `{"s": "a}}b"}` | `{"s": "a\}\}b"}` | unbalanced `}}` would close the region |
+| annotation | `{"s": "a}}b"}` | `{"s": "a\}\}b"}` | unbalanced `}}` would close the region |
 | style | `a]]b` | `a\]\]b` | `]]` closes the region |
 | comment | `a*/b` | `a\*/b` | `*/` closes the region |
 
@@ -773,7 +773,7 @@ special), `""` inside YAML/JSON under a `"` wrapper (alternation).
    `key:value:` and `x:date(…):` need escaping in strict mode, which errors
    loudly and actionably.
 3. **Escaped-space at value end** — rare, needed for exactness.
-4. **JSON strings containing `}}`** — must be escaped inside the code region
+4. **JSON strings containing `}}`** — must be escaped inside the annotation region
    (§11.3). Rare, error is clear.
 
 ### 12.4 Why backslash (not doubling or %-encoding)
@@ -906,13 +906,14 @@ line        = [ comment-line / blank-line / divider-line / data-line ] newline
 divider-line= "---"                                              (* sheet divider *)
 data-line   = field { delim field }
 field       = wrapped-field / bare-field
-wrapped-field = quote { char / quote quote / "\" escape } quote
+wrapped-field = quote { char / quote quote / protected-backtick / "\" escape } quote
+protected-backtick = "`" { char / "\`" } "`"             (* wrapper is literal inside *)
 bare-field  = { char / escape-char }                       (* quote = literal *)
 cell        = value { inclusion }                          (* value first *)
-inclusion   = type-marker / formula / code / style / comment
+inclusion   = type-marker / formula / annotation / style / comment
 type-marker = ":" identifier [ "(" param ")" ] ":"         (* param: no ( ) *)
 formula     = "`" { char / "\`" } "`"
-code        = "{{" balanced-braces "}}"                    (* with backtracking close *)
+annotation  = "{{" balanced-braces "}}"                    (* with backtracking close *)
 style       = "[[" { char / "\]" } "]]"
 comment     = "/*" { char / "\*" } "*/"
 cont-marker = "+"                                          (* after last non-space char;
@@ -927,7 +928,7 @@ The reference parser is normative over this sketch.
   that re-export to spreadsheet formats must treat `=`, `+`, `-`, `@` at the
   start of *untyped* values as potentially hostile (classic CSV injection).
   CSVX's formula marker makes intent explicit; exporters should export
-  formulas as formulas only when `formula_dialect` is set and the user asked
+  formulas as formulas only when `formula_language` is set and the user asked
   for it.
 - **YAML safety:** frontmatter and `{{...}}` blocks must be parsed with a
   safe YAML loader (no object construction, no `!!python/...` tags). The
@@ -941,8 +942,9 @@ The reference parser is normative over this sketch.
 ## 17. LLM guidance
 
 Why CSVX is LLM-friendly: it deliberately resembles Markdown tables (the
-form LLMs read and edit best), the frontmatter is self-describing, markers
-are visually scannable, escaping noise is rare, and the line-based structure
+form LLMs read and edit best), optional frontmatter can make a document
+self-describing, markers are visually scannable, escaping noise is rare, and
+the line-based structure
 survives continuation and sheet dividers. Practical guidance:
 
 - Prefer `|` delimiter and spaced inclusions (scheme B) — densest readable
@@ -964,7 +966,7 @@ survives continuation and sheet dividers. Practical guidance:
 1. **Reference parser/serializer** (strict + lenient), CLI: parse, render,
    check, markdown view, JSON view, round-trip verification.
 2. **Conformance corpus** — adversarial cases: every escape in §12.3, every
-   dialect variant, staircase edge cases, unicode, wrapper interplay,
+   syntax variant, staircase edge cases, unicode, wrapper interplay,
    brace-balancing cases, sheet dividers, one-line frontmatter.
 3. **Escaping benchmark** — generated corpus of realistic + adversarial
    cells; measures for each candidate scheme: parse failure rate,
@@ -973,13 +975,13 @@ survives continuation and sheet dividers. Practical guidance:
    collision matrix.
 4. **LLM benchmark** — prompt-comprehension and token-cost experiments
    (CSVX vs CSV vs XLSX-rendered), using Markdown-table resemblance as the
-   comprehension baseline (§21.2 Q15).
+   comprehension baseline (§17).
 5. **XLSX ↔ CSVX converters** with a fidelity contract: same grid (rows,
    columns), same sheet names/order, formulas verbatim at the same cell
    addresses, comments ↔ cell comments/notes, styles ↔ CSS/named styles,
    date formats ↔ `:date(fmt):` / `{{format: …}}`, merges ↔
    `{{colspan/rowspan}}` (§11.3.1), special values ↔ `:nan:`/`:inf:`/…
-   tokens. Converters are the *proof* of the style/code/date specs.
+   tokens. Converters are the *proof* of the style/annotation/date specs.
 6. **Packaging:** `tools/` hosts *proto-packages* — reference
    implementations used for conformance testing (`tools/csvx-py` with its
    own pyproject, `tools/csvx-js` with its own package.json). They are
@@ -993,6 +995,15 @@ survives continuation and sheet dividers. Practical guidance:
 - Within 0.x, breaking changes are allowed with loud tool warnings.
 - New inclusions and registry entries are additive; grammar changes are
   breaking.
+- **Flat-frontmatter migration:** flat root-level syntax keys are canonical.
+  During 0.x, parsers SHOULD accept the former nested `dialect.csv` and
+  `dialect.csvx` mapping as deprecated input and warn on it; canonical
+  renderers MUST emit only the flat keys. A file MUST NOT declare both forms.
+  Legacy `formula_dialect: xlsx | ods | sheets` maps to
+  `formula_language: ooxml | openformula | google-sheets`; legacy
+  `code_format` maps to `annotation_format`; legacy `style_format` is
+  discarded because CSS is the only v0.x style syntax; legacy `encoding` is
+  ignored because UTF-8 is a physical-file requirement, not frontmatter.
 - A migration appendix will be maintained for each breaking version.
 
 ## 20. How to contribute (proposal)
@@ -1014,7 +1025,8 @@ survives continuation and sheet dividers. Practical guidance:
   converted; cell comments convert) (§9.3, §13.4).
 - Q4 — only types propagate by default; styles/formats opt-in (§9.2).
 - Q5 — `blank_row` marker optional and disabled by default; explicit
-  spellings exist (`:null:` row, `||`); `table.range` declared (§9.6).
+  spellings exist (`:null:` row, `||`); `table.rows`/`table.cols` are
+  declared (§9.6).
 - Q6 — unknown frontmatter keys are allowed and preserved, never errors
   (§7).
 - Q7 — `{{…}}` content is schema-free; complex features (conditional
@@ -1023,12 +1035,12 @@ survives continuation and sheet dividers. Practical guidance:
   column type (§9.2).
 - Q9 — both named styles `#name` and CSS classes `.class` (§11.4).
 - Q10 — `audio`/`image`/`video` stay; encoding sniffing is future work.
-- Q11 — complex constraints live in code inclusions (`{{min: 0, max: 10}}`);
-  date-format spelling still open (Q17).
+- Q11 — complex constraints live in annotation inclusions (`{{min: 0, max: 10}}`);
+  date/time formats use `:date(fmt):`-style type parameters (Q17).
 - Q12 — formulas are never touched; converter fidelity (grid + sheet
   names/order) guarantees formulas keep working (§11.2, §18).
-- Q13 — single file, `---` sheet dividers, configs in main frontmatter
-  (`sheets:`) *and* per-sheet frontmatters (§9.7).
+- Q13 — single file, `---` sheet dividers, and configuration in the main
+  frontmatter `sheets:` list; there is no per-sheet frontmatter (§9.7).
 - Q14 — `colspan`/`rowspan` advisory; converters map to merges; Markdown
   view may render spanned titles (§11.3.1).
 - Q15 — "LLM-readable" is defined as Markdown-table resemblance; benchmarks
@@ -1043,7 +1055,7 @@ survives continuation and sheet dividers. Practical guidance:
 - Q20 — the `---` divider is always active; converters name unnamed sheets
   `Sheet1`, `Sheet2`, … (xlsx convention) (§9.7).
 - Q22 — error sugar tokens added: `:div0:` `:nref:` `:nvalue:` `:nname:`
-  `:nnum:`; any other code uses `:err(code):` (§11.1.5).
+  `:nnum:`; any other error code uses `:err(code):` (§11.1.5).
 - Q23 — backtick regions are wrapper-protected, so formulas never need
   doubling (§8, §11.2).
 - Q24 — tools are proto-packages that graduate to standalone repos; the
@@ -1054,14 +1066,21 @@ survives continuation and sheet dividers. Practical guidance:
   the xlsx-style range (§9.6).
 - Q19 — no per-sheet frontmatter: all sheet configuration lives in the main
   frontmatter `sheets:` list; unconfigured sheets use defaults (§9.7).
-- Q21 — one-line frontmatter canonical spelling is flow YAML; JSON is
-  accepted as input (YAML subset) (§6.1).
+- Q21 — when frontmatter is present, its one-line canonical spelling is
+  flow YAML; JSON is accepted as input (YAML subset) (§6.1).
 - Q25 — `:periodic(repetend):` canonical (`0.1 :periodic(3):` = 0.1(3)); no
   `:p(3):` alias, no math constants (§11.1.5).
 - Q26 — custom date formats stay advisory in strict mode until the XLSX
   converters define a format-token contract (§11.1.2, §21.2).
 - Continuation — confirmed: bare unwrapped `5+` is a continuation by
   definition; `"5+"` or `5\+` is the literal string (§13.4).
+- Frontmatter — optional: body-only files use the §7.1 defaults; frontmatter
+  carries only non-default document configuration or metadata (§7.2).
+- Syntax configuration — canonical frontmatter uses flat file-level keys
+  (`delimiter`, `quote`, `continuation`, `line_comment`, `escape`,
+  `formula_language`, `annotation_format`); `dialect` is deprecated legacy
+  input. Sheet entries may override only `table` and `columns`/`features`
+  (§7, §9.7, §19).
 
 ### 21.2 Closed this epoch
 
@@ -1084,7 +1103,7 @@ Special tokens: `nan inf ninf na err err(code) div0 nref nvalue nname nnum perio
 Date/time accept format params: `date(fmt) datetime(fmt) time(fmt)` —
 §11.1.2.
 
-## Appendix B — Code-inclusion key registry (advisory)
+## Appendix B — Annotation-inclusion key registry (advisory)
 
 `format link url tags note colspan rowspan sort validate min max pattern
 enum icon id meta` — see §11.3.1.
@@ -1093,13 +1112,6 @@ enum icon id meta` — see §11.3.1.
 
 ```csvx
 ---
-version: "0.2.0"
-dialect:
-  csv:
-    delimiter: "|"
-  csvx:
-    formula_dialect: xlsx
-    code_format: yaml
 styles:
   negative: "color: #c00;"
   header: "font-weight: bold; background: #f0f0f0;"
@@ -1114,8 +1126,6 @@ features:
   dtype: float
 - name: total
   dtype: float
-meta:
-  title: Kitchen sink
 ---
 item|qty|unit_price|total
 Widget|12|3.50|42`=B2*C2`
@@ -1134,5 +1144,5 @@ Notes: header types are omitted because `features:` declares them;
 `"Bolt, M4"` is wrapped because it contains the delimiter; the `Subtotal`
 row is a staircase continuation; `[[#negative]]` references a named style;
 the `#` line is CSVX-only; the last row shows a formatted date, a special
-value, validation metadata in the code inclusion, and quote alternation
+value, validation metadata in the annotation inclusion, and quote alternation
 (`'` strings under a `"` wrapper).

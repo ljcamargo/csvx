@@ -1,8 +1,12 @@
----
-version: "0.2.0"
-table:
-  header: false
----
-say "hi"|plain
-"wrapped with ""doubled"""|"a|b"+
-"c|d"
+example|category|text
+unwrapped|prose|say "hello" to the team
+doubled|title|"A ""quoted"" project title"
+apostrophe|prose|the user's export is ready
+formula text|formula|`=CONCAT("a","b")`
+leading space|layout|" needs a wrapper because it starts with a space"
+trailing space|layout|"needs a wrapper because it ends with a space "
+embedded delimiter|prose|"north | south"
+continued|layout|"first | segment"+
+"second | segment"
+wrapped formula|formula|"`=CONCAT("a|b","c")`"
+literal plus|precision|"c++"

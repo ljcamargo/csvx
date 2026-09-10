@@ -1,3 +1,11 @@
---- {version: "0.2.0", meta: {title: 'One-line frontmatter'}, table: {header: true}} ---
-a|b
-1|2
+--- {table: {header: false, cols: 4}, meta: {source: 'generated-export'}} ---
+Ada|Research|42|active
+Grace|Platform|73|active
+Katherine|Navigation|51|active
+Alan|Research|64|inactive
+Margaret|Flight|39|active
+Annie|Systems|48|active
+Mary|Flight|57|active
+Donald|Algorithms|61|inactive
+Radia|Networks|46|active
+Evelyn|Navigation|52|active
