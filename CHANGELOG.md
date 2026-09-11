@@ -3,6 +3,30 @@
 All notable changes. Format follows [Keep a Changelog](https://keepachangelog.com/)
 and this project uses the spec-version scheme of [SPEC.md](SPEC.md#19-versioning-and-migration).
 
+## [Unreleased]
+
+### Reference tooling
+
+- Added `tools/csvx-py`, the Apache-2.0 pre-alpha Python reference package:
+  CSVX parsing/rendering, `csvx check` / `csvx format`, extension-driven XLSX
+  conversion, JSON loss reports, and strict rejection of lossy conversion.
+- Baseline XLSX conversion preserves sheets and names, values, formula text,
+  exposed cached values on import, comments, hyperlinks, and positional gaps.
+  It never evaluates formulas; rebuilt workbooks request recalculation.
+- XLSX import now trims trailing style-only worksheet extent by default while
+  preserving meaningful leading and interior gaps. `--dimension worksheet`
+  retains the reported worksheet extent.
+- Added reviewed public real-workbook fixtures and non-destructive conversion
+  comparisons under `tests/samples/`. Style and formula-cache losses are
+  reported once per sheet rather than once per affected cell.
+- Removed the superseded top-level legacy Python script and test runner.
+
+### Known limitations
+
+- Styles, merges, validations, conditional formatting, charts, drawings,
+  macros, and non-link annotations are not converted yet. Style conversion is
+  the next critical fidelity milestone.
+
 ## [0.2.0-draft] — Epoch 1, revision 5 (discussion closed)
 
 ### Resolved in review rounds 1–2 (recorded in SPEC.md §21.1)

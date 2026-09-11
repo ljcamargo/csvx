@@ -13,7 +13,9 @@ data donors, implementers, reviewers.
      for the benchmarks;
    - proposals for new registries (types, tokens, annotation keys) or grammar.
 3. **Pull requests** for: spec text, samples, schema, reference parsers,
-   converters, benchmarks, docs. Small, focused PRs review faster.
+   converters, benchmarks, docs. Small, focused PRs review faster. Do not add
+   private, personal, or otherwise sensitive workbook data; confirm that any
+   real-world fixture is suitable for public release.
 
 ## Decision records
 
@@ -34,11 +36,22 @@ pointer to the discussion.
   the round-trip property `parse(render(parse(x))) == parse(x)`.
 - New samples must be spec-valid and listed in
   [samples/README.md](samples/README.md) with their spec-section pointers.
+- Python-tool changes must pass:
+
+  ```bash
+  cd tools/csvx-py
+  python -m ruff check src tests
+  python -m pytest
+  ```
+
+- Reviewed XLSX fixtures and their generated round trips live in
+  [tests/samples/](tests/samples/README.md). Update their JSON conversion
+  reports whenever their expected fidelity changes.
 
 ## Licensing
 
 - Spec text, docs, and samples: **CC-BY-4.0**.
-- Code: **Apache-2.0** (SPDX headers in each file).
+- Code: **Apache-2.0**.
 - By contributing you agree to license your contributions accordingly.
 
 ## Code of conduct

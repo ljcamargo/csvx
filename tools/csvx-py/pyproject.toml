@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "csvx-py"
+version = "0.1.0a1"
+description = "Reference Python parser and XLSX converter for CSVX"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "CSVX community" }]
+keywords = ["csvx", "csv", "xlsx", "spreadsheet", "converter"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = ["PyYAML>=6.0", "openpyxl>=3.1"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "jsonschema>=4", "ruff>=0.6"]
+
+[project.scripts]
+csvx = "csvx.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/csvx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+ignore = ["E701", "E702"]

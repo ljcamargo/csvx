@@ -6,7 +6,7 @@ corpus (ROADMAP Epoch 4) to be listed as *conformant*.
 
 | Implementation | Language | Status | Type | Repo |
 |---|---|---|---|---|
-| csvx-py | Python | planned (Epoch 3) | reference / proto | `tools/csvx-py` (in this repo, to graduate) |
+| csvx-py | Python | pre-alpha (Epochs 3, 5) | reference | `tools/csvx-py` (in this repo; parser, renderer, and baseline XLSX converter) |
 | csvx-js | TypeScript | planned (Epoch 3) | reference / proto | `tools/csvx-js` (in this repo, to graduate) |
 | *your implementation here* | — | — | community | — |
 

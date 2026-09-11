@@ -50,16 +50,15 @@ format and reference tools stabilize.
 
 ## Epoch 3 — Reference parser (proto-package `tools/csvx-py`)
 
-- [ ] Strict + lenient parse; canonical render; round-trip verification
-- [ ] New rules implemented: field-start-only wrapper; mid-field literal
-      wrapper chars; backtick-protected regions in wrapped fields;
-      marker-outside-wrapper continuation; `:name(params):` type markers
-      (date/time formats); brace-balanced `{{…}}` with backtracking
-- [ ] CLI: `parse | render | check | md | json | roundtrip`
-- [ ] Multi-sheet parsing (dividers, `sheets:` config, inferred dims)
-- [ ] Optional frontmatter, including default-only body files and one-line
-      flow-YAML frontmatter; flat syntax-key migration and rejection of
-      per-sheet syntax/formula-language overrides
+- [x] `tools/csvx-py` pre-alpha: model, flat-frontmatter parser, canonical
+      renderer, public API, `check` / `format` CLI, and conversion reports
+- [x] Core syntax: field-start wrappers and literal mid-field wrapper chars;
+      protected formula regions; marker-outside-wrapper continuation;
+      `:name(params):` markers; balanced `{{…}}`; comments and styles
+- [x] Optional body-only and flow-YAML frontmatter; flat syntax-key migration;
+      multi-sheet dividers and `sheets:` configuration
+- [~] Expand automated parser cases and strict/lenient validation to the full
+      specification; establish conformance coverage in Epoch 4
 - [ ] `tools/csvx-js` proto-package (parallel implementation) — optional,
       only if a second implementation is wanted for cross-checking
 
@@ -78,9 +77,13 @@ format and reference tools stabilize.
 
 ## Epoch 5 — Converters & fidelity contract
 
-- [ ] XLSX → CSVX (sheets, grid, formulas verbatim, comments, styles,
-      date formats, merges, special values)
-- [ ] CSVX → XLSX (inverse, same grid so formulas keep working)
+- [~] Baseline XLSX ↔ CSVX converter in `csvx-py`: sheets and names, content
+      grid / interior gaps, formula text, exposed cached values, comments,
+      hyperlink annotations, basic typed values, reports, and `--strict`
+- [ ] Style conversion — the next critical fidelity milestone: number/date
+      formats, fonts, fills, borders, alignment, and named styles
+- [ ] XLSX merges, validations, conditional formatting, charts, drawings,
+      macros, and remaining annotation mappings
 - [ ] ODS support (stretch)
 - [ ] Q26 resolved here: date/number format-token contract between xlsx
       `numFmt` and `:date(fmt):` / `{{format: …}}`

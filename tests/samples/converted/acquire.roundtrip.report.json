@@ -1,0 +1,21 @@
+{
+  "sheets_converted": 1,
+  "warnings": [
+    {
+      "feature": "formula_cache",
+      "message": "758 cached formula values are not written; workbook will recalculate",
+      "sheet": "Sheet1",
+      "cell": null,
+      "action": "changed"
+    }
+  ],
+  "losses": [
+    {
+      "feature": "formula_cache",
+      "message": "758 cached formula values are not written; workbook will recalculate",
+      "sheet": "Sheet1",
+      "cell": null,
+      "action": "changed"
+    }
+  ]
+}

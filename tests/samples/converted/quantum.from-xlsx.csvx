@@ -1,0 +1,77 @@
+---
+sheets:
+- name: quantumprojs
+- name: Sheet1
+---
+Name|Languages|Url|Description|Architectures|#Sdk|#Hardware|#Sims|@BrandLogo|@CompanyLogo|Complete
+Braket|Python|https://aws.amazon.com/braket/ {{link: 'https://aws.amazon.com/braket/'}}|Fully managed quantum computing service for building quantum algorithms.||True :bool:|True :bool:|True :bool:|braket.png|aws.png|X
+Cirq|Python|https://quantumai.google/cirq {{link: 'https://quantumai.google/cirq'}}|Framework for creating, editing, and invoking Noisy Intermediate Scale Quantum (NISQ) circuits.||True :bool:|False :bool:|True :bool:|cirq.png|google.png|X
+Forest|Python|https://rigetti.com/forest {{link: 'https://rigetti.com/forest'}}|Rigetti’s software library for writing, simulating, compiling and executing quantum programs.||True :bool:|True :bool:|True :bool:|forest.png|rigetti.png|X
+Ocean|Python|https://ocean.dwavesys.com {{link: 'https://ocean.dwavesys.com'}}|D-Wave’s Ocean SDK for solving real-world problems with quantum and hybrid solutions.||True :bool:|True :bool:|True :bool:|ocean.png|dwave.png|X
+OpenQL|"C++"|https://openql.org {{link: 'https://openql.org'}}|Open-source quantum programming language for quantum hardware.||True :bool:|False :bool:|True :bool:|openql.png|openql.png|X
+ProjectQ|Python|https://projectq.ch {{link: 'https://projectq.ch'}}|Open-source software framework for quantum computing.||True :bool:|True :bool:|True :bool:|projectq.png|projectq.png|X
+Q#|Q#|https://microsoft.com/qsharp {{link: 'https://microsoft.com/qsharp'}}|Microsoft's quantum programming language.||True :bool:|False :bool:|True :bool:|qsharp.png|microsoft.png|X
+Qiskit|Python|https://qiskit.org {{link: 'https://qiskit.org'}}|Open-source SDK for working with quantum computers at the level of pulses, circuits, and algorithms.||True :bool:|True :bool:|True :bool:|qiskit.png|ibm.png|X
+Silq|Silq|https://silq.ethz.ch {{link: 'https://silq.ethz.ch'}}|High-level programming language for quantum computing.||True :bool:|False :bool:|True :bool:|silq.png|ethz.png|X
+Strawberry Fields|Python|https://strawberryfields.ai {{link: 'https://strawberryfields.ai'}}|Full-stack library for designing, simulating, and optimizing quantum optical circuits.||True :bool:|True :bool:|True :bool:|strawberry.png|xanadu.png|X
+Tequila|Python|https://github.com/aspuru-guzik-group/tequila {{link: 'https://github.com/aspuru-guzik-group/tequila'}}|Library for rapid development and deployment of quantum algorithms.||True :bool:|False :bool:|True :bool:|tequila.png|aspuru_guzik.png|
+XACC|"C++"|https://xacc.io {{link: 'https://xacc.io'}}|Extensible framework for hybrid classical-quantum computing.||True :bool:|True :bool:|True :bool:|xacc.png|xacc.png|--
+staq|"C++"|https://github.com/softwareQinc/staq {{link: 'https://github.com/softwareQinc/staq'}}|Compiler and optimizer for quantum circuits.||True :bool:|False :bool:|True :bool:|staq.png|softwareqinc.png|X
+BLACK-STONE|Python|https://github.com/loyalpartner/BLACK-STONE {{link: 'https://github.com/loyalpartner/BLACK-STONE'}}|Quantum machine learning and optimization framework.||True :bool:|False :bool:|True :bool:|black_stone.png|loyalpartner.png|--
+Cliffords.jl|Julia|https://github.com/BBN-Q/Cliffords.jl {{link: 'https://github.com/BBN-Q/Cliffords.jl'}}|Library for simulating Clifford circuits.||True :bool:|False :bool:|True :bool:|cliffords.png|bbn.png|X
+Intel Quantum Simulator|"C++"|https://github.com/intel/Intel-QS {{link: 'https://github.com/intel/Intel-QS'}}|High-performance simulator for large-scale quantum circuits.||True :bool:|False :bool:|True :bool:|intelqs.png|intel.png|-/
+JKQ-DDSIM|"C++"|https://github.com/iic-jku/ddsim {{link: 'https://github.com/iic-jku/ddsim'}}|Quantum circuit simulator based on decision diagrams.||True :bool:|False :bool:|True :bool:|jkq_ddsim.png|munich.png|X
+"Liqui|>"|F#|https://stationq.github.io/Liquid {{link: 'https://stationq.github.io/Liquid'}}|Microsoft's software architecture and tools for quantum computing.||True :bool:|False :bool:|True :bool:|liqui.png|microsoft.png|X
+PIQS|Python|https://github.com/BBN-Q/PIQS {{link: 'https://github.com/BBN-Q/PIQS'}}|Library for simulating open quantum systems.||True :bool:|False :bool:|True :bool:|piqs.png|bbn.png|-
+QCGPU|Python|https://github.com/BBN-Q/QCGPU {{link: 'https://github.com/BBN-Q/QCGPU'}}|GPU-accelerated quantum computing library.||True :bool:|False :bool:|True :bool:|qcgpu.png|bbn.png|-
+QCL|"C++"|https://github.com/quantumlah/qcl {{link: 'https://github.com/quantumlah/qcl'}}|Quantum computing language for expressing quantum algorithms.||True :bool:|False :bool:|True :bool:|qcl.png|quantumlah.png|-
+QCircuits|Python|https://github.com/bu-press/QCircuits {{link: 'https://github.com/bu-press/QCircuits'}}|Python library for designing and simulating quantum circuits.||True :bool:|False :bool:|True :bool:|qcircuits.png|bu_press.png|-
+QOCS|Python|https://github.com/BBN-Q/QOCS {{link: 'https://github.com/BBN-Q/QOCS'}}|Quantum Optimal Control Suite for optimizing quantum gates.||True :bool:|False :bool:|True :bool:|qocs.png|bbn.png|-
+QSimulator.jl|Julia|https://github.com/JuliaQuantum/QSimulator.jl {{link: 'https://github.com/JuliaQuantum/QSimulator.jl'}}|Julia library for quantum simulation.||True :bool:|False :bool:|True :bool:|qsimulator_jl.png|juliaquantum.png|-
+QTop|Python|https://github.com/ed-x-io/QTop {{link: 'https://github.com/ed-x-io/QTop'}}|Tool for visualizing quantum circuits.||True :bool:|False :bool:|True :bool:|qtop.png|edxio.png|-
+QVM|Python|https://github.com/rigetti/qvm {{link: 'https://github.com/rigetti/qvm'}}|Quantum Virtual Machine for simulating quantum programs.||True :bool:|False :bool:|True :bool:|qvm.png|rigetti.png|
+QWIRE|Coq|https://github.com/epfl-lara/QWIRE {{link: 'https://github.com/epfl-lara/QWIRE'}}|Quantum circuit language embedded in Coq.||True :bool:|False :bool:|True :bool:|qwire.png|epfl.png|
+Qibo|Python|https://github.com/qiboteam/qibo {{link: 'https://github.com/qiboteam/qibo'}}|Library for quantum computing with support for hardware acceleration.||True :bool:|True :bool:|True :bool:|qibo.png|qiboteam.png|
+Qiskit Aer|Python|https://github.com/Qiskit/qiskit-aer {{link: 'https://github.com/Qiskit/qiskit-aer'}}|High-performance simulators for quantum circuits.||True :bool:|False :bool:|True :bool:|qiskit.png|qiskit.png|X
+Qlmp|Python|https://github.com/BBN-Q/Qlmp {{link: 'https://github.com/BBN-Q/Qlmp'}}|Quantum machine learning library.||True :bool:|False :bool:|True :bool:|qlmp.png|bbn.png|
+Qrack|Python|https://github.com/BBN-Q/Qrack {{link: 'https://github.com/BBN-Q/Qrack'}}|High-performance quantum computing simulator.||True :bool:|False :bool:|True :bool:|qrack.png|bbn.png|
+QuEST|C|https://github.com/QuEST-Kit/QuEST {{link: 'https://github.com/QuEST-Kit/QuEST'}}|Quantum Exact Simulation Toolkit.||True :bool:|False :bool:|True :bool:|quest.png|questcorp.png|X
+QuNetSim|Python|https://github.com/tylerlastovich/QuNetSim {{link: 'https://github.com/tylerlastovich/QuNetSim'}}|Quantum networking simulator.||True :bool:|False :bool:|True :bool:|qunetsim.png|tylerlastovich.png|
+QuPy|Python|https://github.com/BBN-Q/QuPy {{link: 'https://github.com/BBN-Q/QuPy'}}|Python library for quantum computing.||True :bool:|False :bool:|True :bool:|qupy.png|bbn.png|
+QuSim|Python|https://github.com/BBN-Q/QuSim {{link: 'https://github.com/BBN-Q/QuSim'}}|Library for quantum circuit simulation.||True :bool:|False :bool:|True :bool:|qusim.png|bbn.png|
+QuSpin|Python|https://github.com/weinbe58/QuSpin {{link: 'https://github.com/weinbe58/QuSpin'}}|Library for simulating quantum many-body systems.||True :bool:|False :bool:|True :bool:|quspin.png|weinbe58.png|X
+QuTiP|Python|https://qutip.org {{link: 'https://qutip.org'}}|Quantum Toolbox in Python for simulating quantum systems.||True :bool:|False :bool:|True :bool:|qutip.png|qutip.png|X
+QuaC|Python|https://github.com/BBN-Q/QuaC {{link: 'https://github.com/BBN-Q/QuaC'}}|Quantum circuit simulator.||True :bool:|False :bool:|True :bool:|quac.png|bbn.png|
+Quantum Circuit Simulator|Python|https://github.com/BBN-Q/QuantumCircuitSimulator {{link: 'https://github.com/BBN-Q/QuantumCircuitSimulator'}}|Python library for simulating quantum circuits.||True :bool:|False :bool:|True :bool:|quantum_circuit_simulator.png|bbn.png|
+Quantum JavaScript (Q.js)|JavaScript|https://github.com/BBN-Q/Quantum-JS {{link: 'https://github.com/BBN-Q/Quantum-JS'}}|Quantum computing library for JavaScript.||True :bool:|False :bool:|True :bool:|q_js.png|bbn.png|
+Quantum Virtual Machine|Python|https://github.com/BBN-Q/QVM {{link: 'https://github.com/BBN-Q/QVM'}}|Virtual machine for simulating quantum circuits.||True :bool:|False :bool:|True :bool:|quantum_virtual_machine.png|bbn.png|
+"Quantum++"|"C++"|https://github.com/BBN-Q/QuantumPlusPlus {{link: 'https://github.com/BBN-Q/QuantumPlusPlus'}}|C++ library for quantum computing.||True :bool:|False :bool:|True :bool:|quantum_pp.png|bbn.png|
+QuantumInfo.jl|Julia|https://github.com/JuliaQuantum/QuantumInfo.jl {{link: 'https://github.com/JuliaQuantum/QuantumInfo.jl'}}|Julia library for quantum information theory.||True :bool:|False :bool:|True :bool:|quantuminfo_jl.png|juliaquantum.png|
+QuantumUtils|Python|https://github.com/BBN-Q/QuantumUtils {{link: 'https://github.com/BBN-Q/QuantumUtils'}}|Utility library for quantum computing.||True :bool:|False :bool:|True :bool:|quantumutils.png|bbn.png|
+Quintuple|Python|https://github.com/BBN-Q/Quintuple {{link: 'https://github.com/BBN-Q/Quintuple'}}|Python library for quantum computing.||True :bool:|False :bool:|True :bool:|quintuple.png|bbn.png|
+Quipper|Haskell|https://github.com/BBN-Q/Quipper {{link: 'https://github.com/BBN-Q/Quipper'}}|Embedded functional programming language for quantum computing.||True :bool:|False :bool:|True :bool:|quipper.png|bbn.png|
+Quirk|JavaScript|https://github.com/BBN-Q/Quirk {{link: 'https://github.com/BBN-Q/Quirk'}}|Web-based quantum circuit simulator.||True :bool:|False :bool:|True :bool:|quirk.png|bbn.png|
+RandomQuantum.jl|Julia|https://github.com/BBN-Q/RandomQuantum.jl {{link: 'https://github.com/BBN-Q/RandomQuantum.jl'}}|Library for generating random quantum states.||True :bool:|False :bool:|True :bool:|randomquantum_jl.png|bbn.png|
+SQUANCH|Python|https://github.com/BBN-Q/SQUANCH {{link: 'https://github.com/BBN-Q/SQUANCH'}}|Python library for simulating quantum networks.||True :bool:|False :bool:|True :bool:|squanch.png|bbn.png|
+SeQuencing|Python|https://github.com/BBN-Q/SeQuencing {{link: 'https://github.com/BBN-Q/SeQuencing'}}|Library for quantum circuit compilation.||True :bool:|False :bool:|True :bool:|sequencing.png|bbn|
+---
+Name|Languages|Url|Description|Architectures|#Sdk|#Hardware|#Sims|@BrandLogo|@CompanyLogo
+Qiskit|Python OpenQASM|qiskit.org {{link: 'https://qiskit.org'}}|Open-source SDK for quantum computing at the level of pulses, circuits, and algorithms.|Cloud Superconducting|True :bool:|True :bool:|True :bool:|qiskit.png|ibm.png
+Braket|Python, OpenQASM|aws.amazon.com/braket/ {{link: 'https://aws.amazon.com/braket/'}}|Fully managed quantum computing service for building quantum algorithms.|Cloud Superconducting Ion-Trapped|True :bool:|True :bool:|True :bool:|braket.png|aws.png
+Cirq|Python, OpenQASM|quantumai.google/cirq {{link: 'https://quantumai.google/cirq'}}|Framework for creating, editing, and invoking Noisy Intermediate Scale Quantum (NISQ) circuits.||True :bool:|False :bool:|True :bool:|cirq.png|google.png
+Forest|Python Quil|rigetti.com/forest {{link: 'https://rigetti.com/forest'}}|Rigetti’s software library for writing, simulating, compiling and executing quantum programs.|Superconducting|True :bool:|True :bool:|True :bool:|forest.png|rigetti.png
+PennyLane|Python|pennylane.ai {{link: 'http://pennylane.ai'}}|Cross-platform library for quantum computing, machine learning, and chemistry.||True :bool:|False :bool:|True :bool:|pennylane.png|xanadu.png
+Ocean|Python|ocean.dwavesys.com {{link: 'https://ocean.dwavesys.com'}}|D-Wave’s Ocean SDK for solving real-world problems with quantum and hybrid solutions.|Annealing|True :bool:|True :bool:|True :bool:|ocean.png|dwave.png
+OpenQL|Python OpenQL|openql.org {{link: 'https://openql.org'}}|Open-source quantum programming language for quantum hardware.||True :bool:|False :bool:|True :bool:|openql.png|openql.png
+ProjectQ|Python|projectq.ch {{link: 'https://projectq.ch'}}|Open-source software framework for quantum computing.||True :bool:|True :bool:|True :bool:|projectq.png|projectq.png
+Q#|Q#|microsoft.com/qsharp {{link: 'https://microsoft.com/qsharp'}}|Microsoft's quantum programming language.||True :bool:|False :bool:|True :bool:|azure.png|microsoft.png
+Silq|Silq|silq.ethz.ch {{link: 'https://silq.ethz.ch'}}|High-level programming language for quantum computing.||True :bool:|False :bool:|True :bool:|silq.png|ethz.png
+Strawberry Fields|Python|strawberryfields.ai {{link: 'https://strawberryfields.ai'}}|Full-stack library for designing, simulating, and optimizing quantum optical circuits.||True :bool:|False :bool:|True :bool:|strawberry.png|xanadu.png
+staq|"C++"|github.com/softwareQinc/staq {{link: 'https://github.com/softwareQinc/staq'}}|Compiler and optimizer for quantum circuits.||True :bool:|False :bool:|True :bool:|staq.png|softwareqinc.jpg
+Cliffords.jl|Julia|github.com/BBN-Q/Cliffords.jl {{link: 'https://github.com/BBN-Q/Cliffords.jl'}}|Library for simulating Clifford circuits.||True :bool:|False :bool:|True :bool:|cliffords.png|bbn.png
+JKQ-DDSIM|"C++"|github.com/iic-jku/ddsim {{link: 'https://github.com/iic-jku/ddsim'}}|Quantum circuit simulator based on decision diagrams.||True :bool:|False :bool:|True :bool:|tlm.png|munich.png
+"Liqui|>"|F#|stationq.github.io/Liquid {{link: 'https://stationq.github.io/Liquid'}}|Microsoft's software architecture and tools for quantum computing.||True :bool:|False :bool:|True :bool:|liqui.png|microsoft.png
+Qiskit Aer|Python|github.com/Qiskit/qiskit-aer {{link: 'https://github.com/Qiskit/qiskit-aer'}}|High-performance simulators for quantum circuits.||True :bool:|False :bool:|True :bool:|qiskit.png|qiskit.png
+QuEST|C|github.com/QuEST-Kit/QuEST {{link: 'https://github.com/QuEST-Kit/QuEST'}}|Quantum Exact Simulation Toolkit.||True :bool:|False :bool:|True :bool:|quest.png|questcorp.png
+QuSpin|Python|github.com/weinbe58/QuSpin {{link: 'https://github.com/weinbe58/QuSpin'}}|Library for simulating quantum many-body systems.||True :bool:|False :bool:|True :bool:|quspin.png|quspincorp.png
+QuTiP|Python|qutip.org {{link: 'https://qutip.org'}}|Quantum Toolbox in Python for simulating quantum systems.||True :bool:|False :bool:|True :bool:|qutip.png|qutipcorp.png

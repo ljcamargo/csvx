@@ -1,0 +1,21 @@
+{
+  "sheets_converted": 1,
+  "warnings": [
+    {
+      "feature": "cell_style",
+      "message": "35 styled cells across 3 style records are not yet converted",
+      "sheet": "Dataset Rows Length",
+      "cell": null,
+      "action": "dropped"
+    }
+  ],
+  "losses": [
+    {
+      "feature": "cell_style",
+      "message": "35 styled cells across 3 style records are not yet converted",
+      "sheet": "Dataset Rows Length",
+      "cell": null,
+      "action": "dropped"
+    }
+  ]
+}

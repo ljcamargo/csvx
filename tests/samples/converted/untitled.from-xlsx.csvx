@@ -1,0 +1,11 @@
+---
+sheets:
+- name: Dataset Rows Length
+---
+Week|Rows|Mb|Tokens|
+Week 1|45100.0 :float:|1.04 :float:|312312.3123 :float: `=C2/3.33*1000000`|
+Week 2|45100.0 :float:|1.04 :float:|312312.3123 :float: `=C3/3.33*1000000`|
+Week 3|45100.0 :float:|1.04 :float:|312312.3123 :float: `=C4/3.33*1000000`|
+Week 4|109000.0 :float:|10.93 :float:|3282282.282 :float: `=C5/3.33*1000000`|
+Week 5|1279000.0 :float:|104.33 :float:|31330330.33 :float: `=C6/3.33*1000000`|48.8 :float:
+Week 6|1300000.0 :float:|133.13 :float:|39978978.98 :float: `=C7/3.33*1000000`|

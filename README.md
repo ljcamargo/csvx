@@ -150,8 +150,9 @@ csvx/
 ├── benchmarks/        Reproducible escaping and LLM benchmarks (planned)
 ├── implementations.md Reference and community implementation index
 ├── docs/adr/          Decision records
-├── tools/             Future reference proto-packages
-└── tests/             Future conformance corpus
+├── tools/csvx-py/     Pre-alpha Python reference parser and XLSX converter
+├── tests/cases/       Growing syntax/conformance corpus
+└── tests/samples/     Reviewed real-workbook conversion fixtures
 ```
 
 Start with [samples/README.md](samples/README.md) for a guided set of use
@@ -161,9 +162,23 @@ escape rules, and round-trip requirements.
 ## Status and roadmap
 
 The proposal and its initial design decisions are documented in
-[SPEC.md](SPEC.md). Repository scaffolding, examples, and the frontmatter
-schema are in place. The next stages are a reference parser, a conformance
-corpus and benchmarks, XLSX/ODS converters, and community ratification.
+[SPEC.md](SPEC.md). A pre-alpha Python reference implementation is available
+in [`tools/csvx-py/`](tools/csvx-py/), with a parser, canonical renderer,
+`csvx check` / `csvx format`, and extension-driven XLSX conversion:
+
+```bash
+cd tools/csvx-py
+python -m pip install -e ".[dev]"
+csvx convert workbook.xlsx -o workbook.csvx --report import-report.json
+csvx convert workbook.csvx -o rebuilt.xlsx --report export-report.json
+```
+
+It preserves the grid, sheet names, exposed formula text, comments, hyperlinks,
+and available formula caches. It never evaluates formulas. Recognized lossy
+features are reported and rejected by `--strict`; support for advanced OOXML
+features is still incomplete. See the [tool README](tools/csvx-py/README.md) and
+[reviewed conversion fixtures](tests/samples/README.md) for the current
+fidelity boundary.
 
 Several decisions remain deliberately evidence-driven: token and escaping
 trade-offs will be benchmarked, and date/number format validation will be
@@ -180,8 +195,9 @@ CSVX is open and community-driven. Useful contributions now include:
    continuations, and spreadsheet conversion are valuable benchmark material.
 3. **Improve examples and schema** — propose concise, realistic cases that
    make the format easier to understand and implement.
-4. **Implement the format** — the reference parser and XLSX converters are
-   the critical path; see [CONTRIBUTING.md](CONTRIBUTING.md).
+4. **Improve the reference tooling** — style mapping, merge handling,
+   validations, and broader conformance coverage are the current critical
+   path; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

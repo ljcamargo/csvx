@@ -1,0 +1,21 @@
+{
+  "sheets_converted": 1,
+  "warnings": [
+    {
+      "feature": "cell_style",
+      "message": "1911 styled cells across 32 style records are not yet converted",
+      "sheet": "Sheet1",
+      "cell": null,
+      "action": "dropped"
+    }
+  ],
+  "losses": [
+    {
+      "feature": "cell_style",
+      "message": "1911 styled cells across 32 style records are not yet converted",
+      "sheet": "Sheet1",
+      "cell": null,
+      "action": "dropped"
+    }
+  ]
+}

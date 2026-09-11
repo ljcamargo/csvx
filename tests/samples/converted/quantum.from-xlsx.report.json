@@ -1,0 +1,35 @@
+{
+  "sheets_converted": 2,
+  "warnings": [
+    {
+      "feature": "cell_style",
+      "message": "561 styled cells across 3 style records are not yet converted",
+      "sheet": "quantumprojs",
+      "cell": null,
+      "action": "dropped"
+    },
+    {
+      "feature": "cell_style",
+      "message": "200 styled cells across 7 style records are not yet converted",
+      "sheet": "Sheet1",
+      "cell": null,
+      "action": "dropped"
+    }
+  ],
+  "losses": [
+    {
+      "feature": "cell_style",
+      "message": "561 styled cells across 3 style records are not yet converted",
+      "sheet": "quantumprojs",
+      "cell": null,
+      "action": "dropped"
+    },
+    {
+      "feature": "cell_style",
+      "message": "200 styled cells across 7 style records are not yet converted",
+      "sheet": "Sheet1",
+      "cell": null,
+      "action": "dropped"
+    }
+  ]
+}
